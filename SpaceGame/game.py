@@ -5,8 +5,8 @@ import random
 
 
 # SCREEN
-SCREEN_WIDTH = 1900
-SCREEN_HEIGHT = 996
+SCREEN_WIDTH = 1920
+SCREEN_HEIGHT = 1080
 
 sc = turtle.Screen()
 sc.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -17,7 +17,6 @@ Player_Name = sc.textinput("Jogador", "Seu Nick: ")
 sc.tracer(0)
 
 turtle.register_shape("asteroid_2.gif")
-turtle.register_shape("fighter_2.gif")
 turtle.register_shape("Eye_Hunter.gif")
 turtle.register_shape("Mine_Explosive.gif")
 turtle.register_shape("Speeder.gif")
