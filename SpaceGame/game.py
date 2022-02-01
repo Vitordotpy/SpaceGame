@@ -289,35 +289,6 @@ class Sprite():
         pen.penup()
 
 
-#SEN FUNCTION FOR FIND THE ANGLE BETWEN PLAYER AND ENEMY
-def seno(x, y, x1, y1, x2, y2):
-
-    d_enemy_player = ((x - x1) ** 2) + ((y - y1) ** 2)
-    d_enemy_player = math.sqrt(d_enemy_player)
-
-    d_player_x = ((x1 - x2) ** 2) + ((y1 - y2) ** 2)
-    d_player_x = math.sqrt(d_player_x)
-
-    Seno = float(d_player_x / d_enemy_player)
-    angulo = int(((Seno / 0.017452) * 1.1))
-
-    if x1 < x and y1 > y:
-        angulo += 90
-    else:
-        angulo = angulo
-    if x1 < x and y1 < y:
-        angulo += 180
-    else:
-        angulo = angulo
-    if x1 > x and y1 < y:
-        angulo += 270
-    else:
-        angulo = angulo
-
-
-    return angulo
-
-
 class Player(Sprite):
     def __init__(self, x, y, color, shape):
         Sprite.__init__(self, 0, 0, color, shape)
@@ -555,20 +526,19 @@ class Enemy(Sprite):
                     self.dy -= 0.05
                     for enemy_laser in enemy_lasers:
                         if enemy_laser.state == "ready":
-                            shot_heading = seno(int(self.x), int(self.y), int(player.y), int(player.y),
-                                                     int(player.x), int(self.y))
+                            shot_heading = heading_to_player(int(self.x), int(self.y), int(player.x), int(player.y))
                             enemy_laser.Enemy_fire(self.x, self.y, shot_heading, self.dx, self.dy)
 
 
             if self.type == "speeder":
                 if self.x < player.x:
-                    self.dx -= 0.05
+                    self.dx -= 0.03
                 elif self.x > player.x:
-                    self.dx += 0.05
+                    self.dx += 0.03
                 if self.y < player.y:
-                    self.dy -= 0.05
+                    self.dy -= 0.03
                 elif self.y > player.y:
-                    self.dy += 0.05
+                    self.dy += 0.03
 
             if self.type == "mine":
                 self.dx = 0
@@ -592,6 +562,13 @@ class Enemy(Sprite):
         player.resources += 25
         game.alive_enemies -= 1
         winsound.PlaySound("scream.wav", winsound.SND_ASYNC)
+
+
+# FUNCTION FOR FIND THE ANGLE BETWEEN PLAYER AND ENEMY
+def heading_to_player(enemy_x, enemy_y, player_x, player_y):
+    rad = math.atan2((player_y - enemy_y), (player_x - enemy_x))
+    angle = rad * (180 / math.pi)
+    return angle
 
 
 class Asteroides(Sprite):
